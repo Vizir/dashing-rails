@@ -5,6 +5,8 @@ module Dashing
     def index
       response.headers['Content-Type']      = 'text/event-stream'
       response.headers['X-Accel-Buffering'] = 'no'
+      response.headers['Access-Control-Allow-Origin'] = '*' # For Yaffle eventsource polyfill
+      response.headers['Cache-Control'] = 'no-cache' # For Yaffle eventsource polyfill     response.headers['X-Accel-Buffering'] = 'no'
 
       @redis = Dashing.redis
       @redis.psubscribe("#{Dashing.config.redis_namespace}.*") do |on|
