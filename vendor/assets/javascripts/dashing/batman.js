@@ -289,8 +289,12 @@
       return "go" + (++count);
     };
     if (container.setImmediate && container.clearImmediate) {
-      Batman.setImmediate = container.setImmediate;
-      return Batman.clearImmediate = container.clearImmediate;
+      Batman.setImmediate = function(){
+        container.setImmediate.apply(container, arguments);
+      }
+      return Batman.clearImmediate = function(){
+        container.clearImmediate.apply(container, arguments);
+      }
     } else if (canUsePostMessage()) {
       prefix = 'com.batman.';
       functions = new Batman.SimpleHash;
